@@ -7,7 +7,7 @@
 
 struct Variable
 {
-	int value;
+	std::string value;
 	bool initialized;
 };
 
@@ -15,11 +15,11 @@ struct Class
 {
 	std::string name;
 	std::map<std::string, std::function<void(const std::vector<std::string>&)>> methods;
+	std::map<std::string, Variable> variables;
 };
 
 class Interpreter
 {
-	std::map<std::string, Variable> variables;
 
 public:
 	virtual ~Interpreter() = default;
@@ -28,7 +28,8 @@ public:
 	Interpreter();
 
 	void execute(const std::vector<std::string>& program);
-	void setVariableValue(const std::string& varName, int value);
+	void setVariableValue(const std::string className, const std::string& varName, std::string value);
+	Variable getVariableValue(const std::string className, const std::string& varName);
 	virtual void addToken(const std::string& className, const std::string& methodName,
 	                      const std::function<void(const std::vector<std::string>&)>& method);
 	std::string bundelTokens(const std::vector<std::string>& tokens);

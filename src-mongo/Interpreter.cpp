@@ -1,5 +1,6 @@
 #include "Interpreter.h"
 #include <iostream>
+#include <utility>
 
 #include "InterpreterError.h"
 
@@ -25,15 +26,7 @@ void Interpreter::execute(const std::vector<std::string>& program)
 	}
 }
 
-
-void Interpreter::setVariableValue(const std::string& varName, int value)
-{
-	variables[varName].value = value;
-	variables[varName].initialized = true;
-}
-
-void Interpreter::addToken(const std::string& className, const std::string& methodName,
-                           const std::function<void(const std::vector<std::string>&)>& method)
+void Interpreter::addToken(const std::string& className, const std::string& methodName, const std::function<void(const std::vector<std::string>&)>& method)
 {
 	classes[className].methods[methodName] = method;
 }
@@ -67,13 +60,27 @@ std::vector<std::string> Interpreter::tokenize(const std::string& line)
 	std::vector<std::string> tokens;
 	std::istringstream iss(line);
 	std::string token;
+
 	while (iss >> token)
 	{
 		removeQuotes(token);
 		tokens.push_back(token);
+
+		char nextChar = iss.get();
+
+		if (nextChar == ',')
+		{
+			tokens.push_back(",");
+		}
+		else
+		{
+			iss.unget();
+		}
 	}
+
 	return tokens;
 }
+
 
 void Interpreter::removeQuotes(std::string& token)
 {
@@ -110,4 +117,16 @@ std::string Interpreter::bundelTokens(const std::vector<std::string>& tokens)
 		result.pop_back();
 	}
 	return result;
+}
+
+
+void Interpreter::setVariableValue(const std::string className, const std::string& varName, std::string value)
+{
+	classes[className].variables[varName].value = std::move(value);
+	classes[className].variables[varName].initialized = true;
+}
+
+Variable Interpreter::getVariableValue(const std::string className, const std::string& varName)
+{
+	return classes[className].variables[varName];
 }
