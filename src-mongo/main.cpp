@@ -17,20 +17,18 @@ int main()
 	std::cout << "[Mongo] Hello User!" << std::endl;
 	std::cout << "[Mongo] Insert file path to execute" << std::endl;
 
-	#ifdef _WIN32
-		system("cls");
-	#elif __linux__ || __APPLE__
+#ifdef _WIN32
+	system("cls");
+#elif __linux__ || __APPLE__
 		system("clear");
-	#endif
+#endif
 
-	#if DEBUG
-		fileHandler.handleFileExecuting("C:/MongoScript", interpreter);
-	#else
+#if DEBUG
+	fileHandler.handleFileExecuting("C:/MongoScript", interpreter);
+#else
 		std::cin >> path;
 		fileHandler.handleFileExecuting(path, interpreter);
-	#endif
-
-
+#endif
 
 
 	return 0;

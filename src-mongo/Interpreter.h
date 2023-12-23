@@ -20,7 +20,6 @@ struct Class
 
 class Interpreter
 {
-
 public:
 	virtual ~Interpreter() = default;
 	static std::map<std::string, Class> classes;
@@ -28,8 +27,8 @@ public:
 	Interpreter();
 
 	void execute(const std::vector<std::string>& program);
-	void setVariableValue(const std::string className, const std::string& varName, std::string value);
-	Variable getVariableValue(const std::string className, const std::string& varName);
+	void setVariableValue(std::string className, const std::string& varName, std::string value);
+	Variable getVariableValue(std::string className, const std::string& varName);
 	virtual void addToken(const std::string& className, const std::string& methodName,
 	                      const std::function<void(const std::vector<std::string>&)>& method);
 	std::string bundelTokens(const std::vector<std::string>& tokens);

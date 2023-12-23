@@ -26,7 +26,8 @@ void Interpreter::execute(const std::vector<std::string>& program)
 	}
 }
 
-void Interpreter::addToken(const std::string& className, const std::string& methodName, const std::function<void(const std::vector<std::string>&)>& method)
+void Interpreter::addToken(const std::string& className, const std::string& methodName,
+                           const std::function<void(const std::vector<std::string>&)>& method)
 {
 	classes[className].methods[methodName] = method;
 }
